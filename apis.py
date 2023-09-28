@@ -8,18 +8,17 @@ from spotipy.oauth2 import SpotifyClientCredentials
 load_dotenv()
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+
+# Spotify Data
 REDIRECT_URI="http://localhost:8080"
-REFRESH=""
 
-# Initialise connection
-scope = ""
-spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI))
+def auth():
+    # Set scope of authorisation to ask from Spotify
+    SCOPE = "streaming user-read-playback-state user-modify-playback-state"
 
-results = spotify.artist_albums(birdy_uri, album_type='album')
-albums = results['items']
-while results['next']:
-    results = spotify.next(results)
-    albums.extend(results['items'])
+    # Initialise connection
+    return spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope, client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI))
 
-for album in albums:
-    print(album['name'])
+
+def login():
+    return spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI))

@@ -58,7 +58,7 @@ def close_connection(conn, safe=True):
     conn.close()
 
 
-def initialise(db_file):
+def initialise(db_file=DB):
     conn = create_connection(db_file)
     create_table(conn, sql_create_playlists_table)
     create_table(conn, sql_create_bindings_table)
@@ -102,3 +102,5 @@ def delete_playlist(name):
         conn.commit()
     except Error as e:
         print(e)
+
+close_connection(initialise())

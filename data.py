@@ -12,13 +12,14 @@ CREATE TABLE IF NOT EXISTS playlists (
 """
 
 # BINDINGS DONE ON MIDI2KEY OR MAKE CUSTOM MIDI CONTROLLER
-# sql_create_bindings_table = """
-# CREATE TABLE IF NOT EXISTS bindings (
-#     id integer PRIMARY KEY AUTOINCREMENT,
-#     name text NOT NULL,
-#     context_uri text NOT NULL
-# )
-# """
+sql_create_bindings_table = """
+CREATE TABLE IF NOT EXISTS bindings (
+    id integer PRIMARY KEY AUTOINCREMENT,
+    note_value integer NOT NULL,
+    playlist_id text NOT NULL,
+    FOREIGN KEY(playlist_id) REFERENCES playlists(id)
+)
+"""
 
 
 # https://www.sqlitetutorial.net/sqlite-python/creating-tables/
@@ -60,6 +61,7 @@ def close_connection(conn, safe=True):
 def initialise(db_file):
     conn = create_connection(db_file)
     create_table(conn, sql_create_playlists_table)
+    create_table(conn, sql_create_bindings_table)
     return conn
 
 

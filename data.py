@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS bindings (
 
 
 # https://www.sqlitetutorial.net/sqlite-python/creating-tables/
-def create_connection(db_file):
+def create_connection(db_file=DB):
     """ create a database connection to the SQLite database
         specified by db_file
     :param db_file: database file

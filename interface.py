@@ -139,3 +139,5 @@ def main():
     myApp.show()
 
     app.exec()
+
+    myApp.db.close()

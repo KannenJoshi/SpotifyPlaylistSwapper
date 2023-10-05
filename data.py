@@ -133,7 +133,7 @@ def add_many_playlists(conn, *data):
     conn.commit()
 
 
-def add_many_playlists(conn, *data):
+def add_many_bindings(conn, *data):
     sql = """BEGIN;"""
 
     for binding in data:

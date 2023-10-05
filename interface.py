@@ -1,5 +1,4 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtSql import *
 from os.path import exists
 
 import sys
@@ -16,43 +15,19 @@ class MyApp(QWidget):
         self.width = width
         self.height = height
 
-        self.tables_data = {"playlists": None, "bindings": None}
-        self.buttons = {}
-
         self.resize(width, height)
         self.layout = QVBoxLayout()
 
-        # self.db = QSqlDatabase.addDatabase("QSQLITE")
-        # self.db.setDatabaseName(data.DB)
-        # self.db.open()
+        self.db = data.initialise()
+        self.tables_data = {
+                            "playlists": data.get_all(self.db, "playlists"),
+                            "bindings": data.get_all(self.db, "bindings")
+                            }
 
-        for table in self.tables_data:
-            # Get
-            self.tables_data[table] = self.get_from_db(table)
-
-            t=QTableView()
-            t.setModel(self.tables_data[table])
-            self.layout.addWidget(t)
+        # Make Tables
 
 
         self.setLayout(self.layout)
-
-    def get_from_db(self, table_name):
-        # Gets as SQL Table
-        table = QSqlTableModel(None, self.db)
-        table.setTable(table_name)
-        table.select()
-        print(table.data(table.index(0,0)))
-        return table
-
-
-        # data = []
-
-        # q = QSqlQuery()
-        # q.exec(f"SELECT * FROM {table_name}")
-        # while q.next():
-        #     data.append([q.value(1), q.value(2)])
-        # return q
 
 
 def main():

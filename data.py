@@ -70,9 +70,9 @@ def get_context_uri(url: str):
     return f"spotify:album:{url[34:].split('?')[0]}"
 
 
-def get_all_playlists(conn):
+def get_all(conn, table_name):
     c = conn.cursor()
-    c.executescript("SELECT * FROM playlists")
+    c.executescript(f"SELECT * FROM {table_name}")
     return c.fetchall()
 
 

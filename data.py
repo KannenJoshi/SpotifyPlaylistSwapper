@@ -16,7 +16,7 @@ sql_create_bindings_table = """
 CREATE TABLE IF NOT EXISTS bindings (
     id integer PRIMARY KEY AUTOINCREMENT,
     note_value integer NOT NULL,
-    playlist_id text NOT NULL,
+    playlist_id integer NOT NULL,
     FOREIGN KEY(playlist_id) REFERENCES playlists(id)
 )
 """
@@ -72,8 +72,20 @@ def get_context_uri(url: str):
 
 def get_all(conn, table_name):
     c = conn.cursor()
-    c.executescript(f"SELECT * FROM {table_name}")
-    return c.fetchall()
+    c.execute(f"SELECT * FROM {table_name};")
+    out = c.fetchall()
+    print(out)
+    return out
+
+
+def _reset_all(conn):
+    c = conn.cursor()
+    c.executescript("""
+                    BEGIN;
+                    DROP TABLE IF EXISTS playlists;
+                    DROP TABLE IF EXISTS bindings;
+                    COMMIT;
+                    """)
 
 
 def playlist_sql(name, url):
@@ -81,6 +93,14 @@ def playlist_sql(name, url):
     return f"""
     INSERT INTO playlists (name, context_uri)
     VALUES ('{name}', '{get_context_uri(url)}');
+    """
+
+
+def binding_sql(note_value, playlist_id):
+    print(get_context_uri(url))
+    return f"""
+    INSERT INTO playlists (note_value, playlist_id)
+    VALUES ({note_value}, {playlist_id});
     """
 
 
@@ -92,11 +112,32 @@ def add_playlist(conn, name, url):
     conn.commit()
 
 
+def add_binding(conn, note_value, playlist_id):
+    sql = bindings_sql(note_value, playlist_id)
+
+    c = conn.cursor()
+    c.execute(sql)
+    conn.commit()
+
+
 def add_many_playlists(conn, *data):
     sql = """BEGIN;"""
 
     for playlist in data:
         sql += playlist_sql(*playlist) + ";"
+
+    sql += "COMMIT;"
+
+    c = conn.cursor()
+    c.executescript(sql)
+    conn.commit()
+
+
+def add_many_playlists(conn, *data):
+    sql = """BEGIN;"""
+
+    for binding in data:
+        sql += binding_sql(*binding) + ";"
 
     sql += "COMMIT;"
 
@@ -117,14 +158,17 @@ def delete_playlist(conn, name=None, id=None):
         print(e)
 
 
-def _reset_all(conn):
-    c = conn.cursor()
-    c.executescript("""
-                    BEGIN;
-                    DROP TABLE IF EXISTS playlists;
-                    DROP TABLE IF EXISTS bindings;
-                    COMMIT;
-                    """)
+def delete_binding(conn, note_value=None, playlist_id=None):
+    try:
+        c = conn.cursor()
+        key = "note_value" if note_value else "playlist_id" if playlist_id else ""
+        val = note_value if note_value else playlist_id if playlist_id else ""
+
+        c.execute(f"DELETE FROM playlists WHERE {key}={val}")
+        conn.commit()
+    except Error as e:
+        print(e)
+
 
 
 # conn = initialise()

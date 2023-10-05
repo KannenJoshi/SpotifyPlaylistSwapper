@@ -66,17 +66,10 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="p_save">
-         <property name="text">
-          <string>Save Changes</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="bindings_container" stretch="0,0,0,0,0">
+      <layout class="QVBoxLayout" name="bindings_container" stretch="0,0,0,0">
        <property name="spacing">
         <number>6</number>
        </property>
@@ -129,13 +122,6 @@
         <widget class="QPushButton" name="b_del">
          <property name="text">
           <string>Delete Binding</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="b_save">
-         <property name="text">
-          <string>Save Changes</string>
          </property>
         </widget>
        </item>

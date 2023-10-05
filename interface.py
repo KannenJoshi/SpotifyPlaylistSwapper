@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import *
+from PyQt6 import uic
 from os.path import exists
 
 import sys

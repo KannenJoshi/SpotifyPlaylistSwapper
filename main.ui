@@ -173,11 +173,6 @@
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="action_add_playlist">
-   <property name="text">
-    <string>&amp;Add Playlist</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections/>

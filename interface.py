@@ -6,18 +6,12 @@ import sys
 
 import data
 
-W = 1366
-H = 768
 
 #https://www.youtube.com/watch?v=DM8Ryoot7MI
-class MyApp(QWidget):
-    def __init__(self, width, height):
+class MyApp(QMainWindow):
+    def __init__(self):
         super().__init__()
-        self.width = width
-        self.height = height
-
-        self.resize(width, height)
-        self.layout = QVBoxLayout()
+        uic.loadUi("main.ui", self)
 
         self.db = data.initialise()
         self.tables_data = {
@@ -25,16 +19,19 @@ class MyApp(QWidget):
                             "bindings": data.get_all(self.db, "bindings")
                             }
 
-        # Make Tables
+        self.b_add.clicked.connect(self.aaa)
 
+    def aaa(self):
+        print("AAA")
 
-        self.setLayout(self.layout)
+    def action_add_playlist(self):
+        print("ap")
 
 
 def main():
     app = QApplication([])
 
-    myApp = MyApp(W,H)
+    myApp = MyApp()
     myApp.show()
 
     app.exec()

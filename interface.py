@@ -18,14 +18,44 @@ class MyApp(QMainWindow):
                             "playlists": data.get_all(self.db, "playlists"),
                             "bindings": data.get_all(self.db, "bindings")
                             }
+        # print(self.tables_data)
+        # self.b_add.clicked.connect(self.aaa)
 
-        self.b_add.clicked.connect(self.aaa)
+    def get_data(self):
+        self.tables_data = {
+                            "playlists": data.get_all(self.db, "playlists"),
+                            "bindings": data.get_all(self.db, "bindings")
+                            }
 
-    def aaa(self):
-        print("AAA")
 
-    def action_add_playlist(self):
-        print("ap")
+    def add_playlist(self):
+        # Open Dialogue Box
+        # get NAME and CONTEXT URL
+        # data.add_playlist(self.db, name, url)
+        pass
+
+
+    def add_binding(self):
+        pass
+
+
+    def del_playlist(self):
+        # Selected playlist
+        # data.delete_playlist(self.db, id)
+        pass
+
+
+    def del_binding(self):
+        pass
+
+
+    def edit_playlist(self):
+        pass
+
+
+    def edit_binding(self):
+        pass
+
 
 
 def main():

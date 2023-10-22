@@ -198,6 +198,7 @@ class MyApp(QMainWindow):
 
     def midi_detecting(self, b):
         self.midi_on = b
+        self.menuRUN.setTitle("STOP" if b else "START")
         print(b)
 
 

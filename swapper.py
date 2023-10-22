@@ -13,9 +13,10 @@ def get_context_uri(name):
 
 
 def swap_to(sp, context_uri=None, name=None):
-    if context_uri:
+    print(context_uri)
+    if context_uri is not None:
         sp.start_playback(context_uri=context_uri)
-    elif name:
+    elif name is not None:
         sp.start_playback(context_uri=get_context_uri(name))
     else:
         raise Exception("Enter a context_uri or name")

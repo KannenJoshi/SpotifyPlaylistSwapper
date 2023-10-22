@@ -15,7 +15,8 @@ DB = "spotify_swapper.db"
 
 
 def get_context_uri(url: str):
-    return f"spotify:album:{url[34:].split('?')[0]}"
+    # return f"spotify:album:{url[34:].split('?')[0]}"
+    return f"spotify:user:infernokay:playlist:{url[34:].split('?')[0]}"
 
 
 class PlaylistDialog(QDialog):
@@ -57,10 +58,13 @@ class MyApp(QMainWindow):
         uic.loadUi("main.ui", self)
 
         # Spotipy
-        try:
-            self.sp = apis.login()
-        except:
-            self.sp = apis.auth()
+        # try:
+        #     self.sp = apis.login()
+        # except:
+        #     self.sp = apis.auth()
+
+        self.sp = apis.auth()
+        print(self.sp)
 
         # Initialise DB
         self.db = QSqlDatabase.addDatabase("QSQLITE")
@@ -124,12 +128,12 @@ class MyApp(QMainWindow):
 
 
     def add_binding(self):
-        # playlist_names = []
-        # q = QSqlQuery()
-        # q.exec("SELECT name FROM playlists")
-        # while q.next():
-        #     playlist_names.append(q.value(0))
-        playlist_names = self.playlist.values()
+        playlist_names = []
+        q = QSqlQuery()
+        q.exec("SELECT name FROM playlists")
+        while q.next():
+            playlist_names.append(q.value(0))
+        # playlist_names = self.playlists.values()
 
         d = BindingDialog(playlist_names)
         d.exec()
@@ -137,6 +141,9 @@ class MyApp(QMainWindow):
 
         if values:
             note_value, playlist_index = values
+
+            if note_value == 0:
+                return
             # playlist_id get from index in table
 
             r = self.b_model.record()
@@ -145,7 +152,7 @@ class MyApp(QMainWindow):
             self.b_model.insertRecord(-1, r)
             self.b_model.select()
 
-            update_bindings_dict(self.get_bindings_dict())
+            self.update_bindings_dict(self.get_bindings_dict())
 
 
     def del_playlist(self):
@@ -198,7 +205,7 @@ class MyApp(QMainWindow):
         self.bindings_dict = d
         print(d)
         with self.lock:
-            self.args[2] = d
+            self.args[1] = d
 
 
     def run_midi(self, i, bd):

@@ -9,7 +9,8 @@ playlists = {
 
 
 def get_context_uri(name):
-    return f'spotify:album:{playlists[name][34:].split("?")[0]}'
+    # return f'spotify:album:{playlists[name][34:].split("?")[0]}'
+    return f'spotify:user:infernokay:playlist:{playlists[name][34:].split("?")[0]}'
 
 
 def swap_to(sp, context_uri=None, name=None):

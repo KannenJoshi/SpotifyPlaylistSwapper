@@ -172,7 +172,11 @@ def delete_binding(conn, note_value=None, playlist_id=None):
 
 
 # conn = initialise()
-# add_many_playlists(conn, ("tense1", "https://open.spotify.com/playlist/2idQqZl9rw63dcwdOrE4bL?si=4de1cf3b5be84e32"), ("salvador", "https://open.spotify.com/playlist/4G64d75bneOiUhacI7Z1YE?si=b6bf7350453646e3&pt=704e51cd2b3043416551f4063b872bb1"))
-# delete_playlist(conn, "tense1")
-# delete_playlist(conn, "salvador")
+# # add_many_playlists(conn, ("tense1", "https://open.spotify.com/playlist/2idQqZl9rw63dcwdOrE4bL?si=4de1cf3b5be84e32"), ("salvador", "https://open.spotify.com/playlist/4G64d75bneOiUhacI7Z1YE?si=b6bf7350453646e3&pt=704e51cd2b3043416551f4063b872bb1"))
+# # delete_playlist(conn, "tense1")
+# # delete_playlist(conn, "salvador")
+# c = conn.cursor()
+# c.execute(f"DROP TABLE playlists")
+# c.execute(f"DROP TABLE bindings")
+# conn.commit()
 # close_connection(conn)

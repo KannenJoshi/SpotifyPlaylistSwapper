@@ -17,7 +17,7 @@ def auth():
     SCOPE = "streaming user-read-playback-state user-modify-playback-state"
 
     # Initialise connection
-    return spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope, client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI))
+    return spotipy.Spotify(auth_manager=SpotifyOAuth(scope=SCOPE, client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri=REDIRECT_URI))
 
 
 def login():

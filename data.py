@@ -10,6 +10,14 @@ CREATE TABLE IF NOT EXISTS playlists (
     context_uri text NOT NULL
 )
 """
+# sql_create_playlists_table = """
+# CREATE TABLE IF NOT EXISTS playlists (
+#     id integer PRIMARY KEY AUTOINCREMENT,
+#     name text NOT NULL,
+#     context_uri text NOT NULL,
+#     owner_id text NOT NULL
+# )
+# """
 
 # BINDINGS DONE ON MIDI2KEY OR MAKE CUSTOM MIDI CONTROLLER
 sql_create_bindings_table = """
@@ -179,4 +187,5 @@ def delete_binding(conn, note_value=None, playlist_id=None):
 # c.execute(f"DROP TABLE playlists")
 # c.execute(f"DROP TABLE bindings")
 # conn.commit()
+# conn = initialise()
 # close_connection(conn)

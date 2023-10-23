@@ -14,9 +14,13 @@ import swapper
 DB = "spotify_swapper.db"
 
 
-def get_context_uri(url: str):
+def get_playlist_id(url: str):
+    return url[34:].split('?')[0]
+
+
+def get_context_uri(user: str, id: str):
     # return f"spotify:album:{url[34:].split('?')[0]}"
-    return f"spotify:user:infernokay:playlist:{url[34:].split('?')[0]}"
+    return f"spotify:user:{user}:playlist:{id}"
 
 
 class PlaylistDialog(QDialog):
@@ -29,7 +33,7 @@ class PlaylistDialog(QDialog):
 
     def getResults(self):
         if self.name_edit.text() != "" and self.url_edit.text() != "":
-            return self.name_edit.text(), get_context_uri(self.url_edit.text())
+            return self.name_edit.text(), get_playlist_id(self.url_edit.text())
 
 
 class BindingDialog(QDialog):
@@ -109,6 +113,9 @@ class MyApp(QMainWindow):
         t.start()
 
 
+    def get_playlist_owner(self, playlist_id):
+        return self.sp.playlist(playlist_id)["owner"]["id"]
+
 
     def add_playlist(self):
         d = PlaylistDialog()
@@ -116,11 +123,17 @@ class MyApp(QMainWindow):
         values = d.getResults()
 
         if values:
-            name, context_uri = values
+            name, p_id = values
+
+            owner = self.get_playlist_owner(p_id)
+
+            context_uri = get_context_uri(owner, p_id)
 
             r = self.p_model.record()
             r.setValue("name", name)
             r.setValue("context_uri", context_uri)
+
+
             self.p_model.insertRecord(-1, r)
             self.p_model.select()
 
